@@ -31,6 +31,7 @@
 #define STATUS_CODE_UNKNOWN -1
 #define XML_PROLOG "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
 
+
 cache_t *auth_cache;
 cache_t *groups_cache;
 cache_t *cookie_config_cache;
@@ -62,7 +63,7 @@ xmlChar *domain_xml_name = NULL;
 /**
  * Must be called before the first use of the Crowd Client.
  */
-void crowd_init() {
+void crowd_init(void) {
     user_xml_name = xml_string("user");
     groups_xml_name = xml_string("groups");
     group_xml_name = xml_string("group");
@@ -82,7 +83,7 @@ void crowd_init() {
 /**
  * Should be called after the final use of the Crowd Client.
  */
-void crowd_cleanup() {
+void crowd_cleanup(void) {
     // Don't clean up libxml2 or libcurl as their's no guarantee that we're
     // the only people in our process using them.
     free(user_xml_name);
@@ -321,6 +322,9 @@ struct write_data_struct
     bool (**xml_node_handlers)(write_data_t *write_data, const xmlChar *text);
     void *extra;
 };
+
+void parse_xml(write_data_t *write_data);
+const char *get_forwarded_for(const request_rec *r);
 
 static void xml_reader_error(void *arg, const char *msg, xmlParserSeverities severity __attribute__((unused)),
     xmlTextReaderLocatorPtr locator __attribute__((unused))) {

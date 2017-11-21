@@ -23,14 +23,14 @@ typedef struct {
 /**
  * Must be called before the first use of the Crowd Client.
  */
-void crowd_init();
+void crowd_init(void);
 
 bool crowd_cache_create(apr_pool_t *pool, apr_time_t max_age, unsigned int max_entries);
 
 /**
  * Should be called after the final use of the Crowd Client.
  */
-void crowd_cleanup();
+void crowd_cleanup(void);
 
 /**
  * Creates a crowd_config, populated with default values.

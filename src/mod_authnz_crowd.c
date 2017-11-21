@@ -785,16 +785,16 @@ module AP_MODULE_DECLARE_DATA authnz_crowd_module =
 /* Library initialisation and termination functions */
 /* TODO: Another solution will likely be required for non-GCC platforms, e.g. Windows */
 
-void init() __attribute__ ((constructor));
+void init(void) __attribute__ ((constructor));
 
-void init()
+void init(void)
 {
     crowd_init();
 }
 
-void term() __attribute__ ((destructor));
+void term(void) __attribute__ ((destructor));
 
-void term()
+void term(void)
 {
     crowd_cleanup();
 }
