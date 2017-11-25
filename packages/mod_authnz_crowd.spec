@@ -43,12 +43,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc LICENSE
 
 %post
-%if 0%{?rhel} >= 7
-APXS=/usr/bin/apxs
-%else
-APXS=/usr/sbin/apxs
-%endif
-$APXS -e -a -n authnz_crowd mod_authnz_crowd.so
+apxs -e -a -n authnz_crowd mod_authnz_crowd.so
 
 %preun
-/usr/sbin/apxs -e -A -n authnz_crowd mod_authnz_crowd.so
+apxs -e -A -n authnz_crowd mod_authnz_crowd.so
