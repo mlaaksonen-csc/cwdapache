@@ -1,6 +1,6 @@
 Name:           mod_authnz_crowd
-Version:        2.2.2
-Release:        1%{?dist}
+Version:        2.3.0.1
+Release:        1.tqc%{?dist}
 Summary:        Modules for integrating Apache httpd and Subversion with Atlassian Crowd
 
 License:        Apache License, Version 2.0
@@ -49,24 +49,6 @@ APXS=/usr/bin/apxs
 APXS=/usr/sbin/apxs
 %endif
 $APXS -e -a -n authnz_crowd mod_authnz_crowd.so
-cat << END > /tmp/httpd.conf.sed
-/^[ \t]*[Ll][Oo][Aa][Dd][Mm][Oo][Dd][Uu][Ll][Ee][ \t]\+authz_svn_module[ \t]/ {
-    s/^/# /
-    a\
-LoadModule authz_svn_crowd_module   modules/mod_authz_svn_crowd.so
-}
-END
-sed -i.bak -f /tmp/httpd.conf.sed /etc/httpd/conf/httpd.conf /etc/httpd/conf.d/*.conf
-/usr/sbin/apachectl configtest
-/usr/sbin/apachectl graceful || true
 
 %preun
 /usr/sbin/apxs -e -A -n authnz_crowd mod_authnz_crowd.so
-cat << END > /tmp/httpd.conf.sed
-/^[ \t]*[Ll][Oo][Aa][Dd][Mm][Oo][Dd][Uu][Ll][Ee][ \t]\+authz_svn_crowd_module[ \t]/ {
-    s/^/# /
-}
-END
-sed -i.bak -f /tmp/httpd.conf.sed /etc/httpd/conf/httpd.conf /etc/httpd/conf.d/*.conf
-/usr/sbin/apachectl configtest
-/usr/sbin/apachectl graceful || true
